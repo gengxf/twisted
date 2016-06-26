@@ -15,6 +15,7 @@ from setuptools.dist import Distribution
 from twisted.trial.unittest import TestCase
 
 from twisted.python import dist
+from twisted.python.compat import _PY3 
 from twisted.python.dist import (get_setup_args, ConditionalExtension,
                                  build_scripts_twisted, _EXTRAS_REQUIRE)
 from twisted.python.filepath import FilePath
@@ -249,6 +250,22 @@ version = versions.Version("twisted", 0, 1, 2)
 """)
         f.close()
         self.assertEqual(dist.getVersion(base=self.dirname), "0.1.2")
+
+
+
+class GetConsoleScriptsTests(TestCase):
+    """
+    Tests for L{dist.getConsoleScripts} which returns the scripts
+    which should be included in the distribution of a project.
+    """
+    def test_getConsoleScripts(self):
+        consoleScripts = dist.getConsoleScripts()
+        if _PY3:
+            # Not all the scripts have been ported to
+            # Python 3
+            self.assertEqual(len(consoleScripts), 2)
+        else:
+            self.assertEqual(len(consoleScripts), 8)
 
 
 
