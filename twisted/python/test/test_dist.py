@@ -252,63 +252,6 @@ version = versions.Version("twisted", 0, 1, 2)
 
 
 
-class GetScriptsTests(TestCase):
-    """
-    Tests for L{dist.getScripts} which returns the scripts which should be
-    included in the distribution of a project.
-    """
-
-    def test_excludedPreamble(self):
-        """
-        L{dist.getScripts} includes neither C{"_preamble.py"} nor
-        C{"_preamble.pyc"}.
-        """
-        basedir = FilePath(self.mktemp())
-        bin = basedir.child('bin')
-        bin.makedirs()
-        bin.child('_preamble.py').setContent('some preamble code\n')
-        bin.child('_preamble.pyc').setContent('some preamble byte code\n')
-        bin.child('program').setContent('good program code\n')
-        scripts = dist.getScripts(basedir=basedir.path)
-        self.assertEqual(scripts, [bin.child('program').path])
-
-
-    def test_scriptsInRelease(self):
-        """
-        getScripts should return the scripts associated with a project
-        in the context of a released subproject tarball.
-        """
-        basedir = self.mktemp()
-        os.mkdir(basedir)
-        os.mkdir(os.path.join(basedir, 'bin'))
-        f = open(os.path.join(basedir, 'bin', 'exy'), 'w')
-        f.write('yay')
-        f.close()
-        scripts = dist.getScripts(basedir=basedir)
-        self.assertEqual(len(scripts), 1)
-        self.assertEqual(os.path.basename(scripts[0]), 'exy')
-
-
-    def test_getScriptsTopLevel(self):
-        """
-        getScripts returns scripts that are (only) in the top level bin
-        directory.
-        """
-        basedir = FilePath(self.mktemp())
-        basedir.createDirectory()
-        bindir = basedir.child("bin")
-        bindir.createDirectory()
-        included = bindir.child("included")
-        included.setContent("yay included")
-        subdir = bindir.child("subdir")
-        subdir.createDirectory()
-        subdir.child("not-included").setContent("not included")
-
-        scripts = dist.getScripts(basedir=basedir.path)
-        self.assertEqual(scripts, [included.path])
-
-
-
 class DummyCommand:
     """
     A fake Command.
