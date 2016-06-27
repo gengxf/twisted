@@ -219,9 +219,7 @@ def getConsoleScripts():
                 "conch = twisted.conch.scripts.conch:run",
                 "mailmail = twisted.mail.scripts.mailmail:run",
                 "pyhtmlizer = twisted.scripts.htmlizer:run",
-                "tkconch = twisted.conch.scripts.tkconch:run",
-                "trial = twisted.scripts.trial:run",
-                "twistd = twisted.scripts.twistd:run"
+                "tkconch = twisted.conch.scripts.tkconch:run"
               ]
     portedToPython3Scripts = [ "trial = twisted.scripts.trial:run",
                                "twistd = twisted.scripts.twistd:run"
@@ -229,7 +227,7 @@ def getConsoleScripts():
     if _PY3:
         return portedToPython3Scripts
     else:
-        return scripts
+        return scripts + portedToPython3Scripts
 
 
 ## Helpers and distutil tweaks
