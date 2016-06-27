@@ -356,4 +356,4 @@ def packRequest_window_change(geometry):
     (rows, cols, xpixel, ypixel) = geometry
     return struct.pack('>4L', cols, rows, xpixel, ypixel)
 
-import connection
+from twisted.conch.ssh import connection

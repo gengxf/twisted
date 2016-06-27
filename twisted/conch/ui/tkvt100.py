@@ -9,7 +9,7 @@ Maintainer: Paul Swartz
 """
 
 import Tkinter, tkFont
-import ansi
+from twisted.conch.ui import ansi
 import string
 
 ttyFont = None#tkFont.Font(family = 'Courier', size = 10)
